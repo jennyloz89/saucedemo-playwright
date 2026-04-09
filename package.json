@@ -1,0 +1,21 @@
+{
+  "name": "saucedemo-playwright",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:smoke": "playwright test tests/functional/smoke --grep \"@smoke\"",
+    "test:smoke:list": "playwright test tests/functional/smoke --grep \"@smoke\" --list",
+    "test:regression": "playwright test tests/regression --grep \"@regression\"",
+    "test:regression:list": "playwright test tests/regression --grep \"@regression\" --list"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "typescript": "^6.0.2"
+  }
+}
