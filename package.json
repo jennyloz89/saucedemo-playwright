@@ -8,7 +8,10 @@
     "test:smoke": "playwright test tests/functional/smoke --grep \"@smoke\"",
     "test:smoke:list": "playwright test tests/functional/smoke --grep \"@smoke\" --list",
     "test:regression": "playwright test tests/regression --grep \"@regression\"",
-    "test:regression:list": "playwright test tests/regression --grep \"@regression\" --list"
+    "test:regression:list": "playwright test tests/regression --grep \"@regression\" --list",
+    "report:open": "playwright show-report reports",
+    "report:smoke": "playwright test tests/functional/smoke --grep \"@smoke\" && playwright show-report reports",
+    "report:regression": "playwright test tests/regression --grep \"@regression\" && playwright show-report reports"
   },
   "keywords": [],
   "author": "",

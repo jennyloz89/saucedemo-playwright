@@ -32,15 +32,28 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run functional tests
+        env:
+          PLAYWRIGHT_HTML_OUTPUT_DIR: reports-functional
         run: npx playwright test tests/functional --project=chromium
 
       - name: Run regression tests
+        if: always()
+        env:
+          PLAYWRIGHT_HTML_OUTPUT_DIR: reports-regression
         run: npx playwright test tests/regression --project=chromium
 
-      - name: Upload HTML report
+      - name: Upload functional HTML report
         uses: actions/upload-artifact@v5
         if: always()
         with:
-          name: playwright-report-${{ github.run_number }}
-          path: reports/
+          name: playwright-report-functional-${{ github.run_number }}
+          path: reports-functional/
+          retention-days: 30
+
+      - name: Upload regression HTML report
+        uses: actions/upload-artifact@v5
+        if: always()
+        with:
+          name: playwright-report-regression-${{ github.run_number }}
+          path: reports-regression/
           retention-days: 30

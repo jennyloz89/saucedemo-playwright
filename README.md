@@ -30,3 +30,21 @@ Los siguientes bugs son conocidos para `problem_user` y estan documentados como 
 - `npm run test:smoke`
 - `npm run test:regression`
 - `npx playwright test --grep "@known-bug"`
+
+## HTML Report
+
+El proyecto ya genera reporte HTML en la carpeta `reports/` por configuracion de Playwright.
+
+- **Abrir ultimo reporte generado**
+  - `npm run report:open`
+
+- **Correr smoke y abrir reporte**
+  - `npm run report:smoke`
+
+- **Correr regression y abrir reporte**
+  - `npm run report:regression`
+
+En GitHub Actions, los reportes se publican como artifacts separados al final del job, incluso cuando hay fallos:
+
+- `playwright-report-functional-<run_number>`
+- `playwright-report-regression-<run_number>`
