@@ -38,7 +38,7 @@ jobs:
         run: npx playwright test tests/regression --project=chromium
 
       - name: Upload HTML report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: playwright-report-${{ github.run_number }}

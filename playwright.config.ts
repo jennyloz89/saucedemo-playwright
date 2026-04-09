@@ -10,7 +10,8 @@ export default defineConfig({
   ],
   use: {
     baseURL: 'https://www.saucedemo.com',
-    headless: false,
+    // In CI there is no display server, so tests must run headless.
+    headless: !!process.env.CI,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'on-first-retry',
