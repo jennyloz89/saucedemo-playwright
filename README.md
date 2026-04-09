@@ -4,7 +4,7 @@ Proyecto de automatizacion E2E con Playwright para validar flujos funcionales, s
 
 ## Known Bugs
 
-Los siguientes bugs son conocidos para `problem_user` y estan documentados como pruebas etiquetadas con `@known-bug` en `tests/regression/regression.spec.ts`.
+Los siguientes bugs son conocidos para `problem_user` y estan documentados como pruebas etiquetadas  `@known-bug` en `tests/regression/regression.spec.ts`.
 
 - **BUG-01 - Imagenes de productos incorrectas**  
   Todas (o varias) imagenes de productos se repiten cuando deberian ser distintas.
