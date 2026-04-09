@@ -9,6 +9,9 @@ on:
   schedule:
     - cron: '0 8 * * 1-5'
 
+permissions:
+  contents: read
+
 jobs:
   e2e-tests:
     name: Run E2E Tests
@@ -57,3 +60,54 @@ jobs:
           name: playwright-report-regression-${{ github.run_number }}
           path: reports-regression/
           retention-days: 30
+
+      - name: Prepare GitHub Pages bundle
+        if: always() && github.event_name != 'pull_request'
+        shell: bash
+        run: |
+          mkdir -p deploy/functional deploy/regression
+          if [ -d reports-functional ] && [ -n "$(ls -A reports-functional 2>/dev/null)" ]; then
+            cp -r reports-functional/. deploy/functional/
+          fi
+          if [ -d reports-regression ] && [ -n "$(ls -A reports-regression 2>/dev/null)" ]; then
+            cp -r reports-regression/. deploy/regression/
+          fi
+          {
+            echo '<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Playwright — Reportes E2E</title>'
+            echo '<style>body{font-family:system-ui,sans-serif;max-width:40rem;margin:2rem auto;padding:0 1rem} a{color:#0969da}</style></head><body>'
+            echo '<h1>Reportes Playwright (SauceDemo)</h1>'
+            echo "<p>Ejecución <strong>#${{ github.run_number }}</strong> · <a href=\"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\">Abrir run en Actions</a></p>"
+            echo '<ul>'
+            echo '<li><a href="functional/index.html">Functional + smoke</a></li>'
+            echo '<li><a href="regression/index.html">Regression</a></li>'
+            echo '</ul>'
+            echo '<p><small>La URL pública se actualiza en cada push a la rama por defecto (no en PRs desde forks).</small></p>'
+            echo '</body></html>'
+          } > deploy/index.html
+
+      - name: Upload Pages artifact
+        if: always() && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: deploy
+
+  deploy-pages:
+    name: Publish reports to GitHub Pages
+    needs: e2e-tests
+    if: always() && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    permissions:
+      actions: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

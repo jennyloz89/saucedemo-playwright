@@ -48,3 +48,17 @@ En GitHub Actions, los reportes se publican como artifacts separados al final de
 
 - `playwright-report-functional-<run_number>`
 - `playwright-report-regression-<run_number>`
+
+### Reporte en la web (enlace sin descargar ZIP)
+
+Los artifacts son archivos ZIP: para ver el HTML con un **enlace directo** el workflow publica el mismo contenido en **GitHub Pages**.
+
+1. En el repo: **Settings → Pages → Build and deployment**.
+2. En **Source**, elige **GitHub Actions** (no “Deploy from a branch”).
+3. Tras el siguiente push a `master`/`main`, el job **Publish reports to GitHub Pages** dejará la URL en el run (environment `github-pages`) y podrás abrir algo como:
+
+   `https://jennyloz89.github.io/saucedemo-playwright/`
+
+   Desde ahí entras a **Functional** o **Regression** sin descargar nada.
+
+En **pull requests** no se despliega Pages (solo artifacts), para no mezclar previews con el sitio de la rama principal.
